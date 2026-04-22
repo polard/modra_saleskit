@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="cs" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoDRA Sales Kit</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --color-bg:#f7f6f2; --color-surface:#f9f8f5; --color-surface-2:#fbfbf9; --color-surface-offset:#f3f0ec;
+      --color-border:#d4d1ca; --color-text:#28251d; --color-text-muted:#6f6d67; --color-text-faint:#9e9b94;
+      --color-primary:#01696f; --color-primary-hover:#0c4e54; --color-primary-highlight:#cedcd8; --color-success:#437a22;
+      --radius-sm:.375rem; --radius-md:.5rem; --radius-lg:.875rem; --radius-xl:1.25rem; --radius-full:9999px;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.05); --shadow-md:0 8px 24px rgba(0,0,0,.08); --shadow-lg:0 18px 50px rgba(0,0,0,.12);
+      --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-5:1.25rem; --space-6:1.5rem; --space-8:2rem; --space-10:2.5rem; --space-12:3rem; --space-16:4rem; --space-20:5rem;
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem); --text-sm:clamp(.875rem,.8rem + .35vw,1rem); --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+      --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem); --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem); --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+      --font-body:'Satoshi', system-ui, sans-serif; --font-display:'Cabinet Grotesk', 'Satoshi', sans-serif;
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#201f1d; --color-surface-offset:#22211f;
+      --color-border:#393836; --color-text:#e5e1d8; --color-text-muted:#aaa59a; --color-text-faint:#6d695f;
+      --color-primary:#4f98a3; --color-primary-hover:#227f8b; --color-primary-highlight:#313b3b; --color-success:#6daa45;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.2); --shadow-md:0 8px 24px rgba(0,0,0,.28); --shadow-lg:0 18px 50px rgba(0,0,0,.4);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;background:var(--color-bg);color:var(--color-text)}
+    img,svg{display:block;max-width:100%}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    .container{width:min(1180px,calc(100% - 2rem));margin-inline:auto}
+    .skip-link{position:absolute;left:-999px;top:auto}.skip-link:focus{left:1rem;top:1rem;background:var(--color-primary);color:#fff;padding:.75rem 1rem;border-radius:var(--radius-md);z-index:1000}
+    .topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-border)}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;gap:1rem}
+    .brand{display:flex;align-items:center;gap:.85rem;font-weight:700}
+    .brand-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--color-primary),color-mix(in srgb, var(--color-primary) 55%, #ffffff));display:grid;place-items:center;box-shadow:var(--shadow-sm)}
+    .brand-mark svg{width:24px;height:24px;color:white}
+    .brand-text strong{display:block;font-family:var(--font-display);font-size:1.05rem;line-height:1}
+    .brand-text span{display:block;font-size:var(--text-xs);color:var(--color-text-muted)}
+    .nav{display:flex;gap:1rem;flex-wrap:wrap;font-size:var(--text-sm);color:var(--color-text-muted)}
+    .nav a:hover{color:var(--color-text)}
+    .theme-toggle{width:44px;height:44px;border:1px solid var(--color-border);border-radius:999px;background:var(--color-surface)}
+    .hero{padding:clamp(3rem,6vw,6rem) 0 2rem}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:2rem;align-items:start}
+    .eyebrow{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .8rem;border-radius:999px;background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+    h1,h2,h3{font-family:var(--font-display);line-height:1.08;letter-spacing:-.02em}
+    h1{font-size:var(--text-2xl);max-width:12ch;margin:1rem 0}
+    .lead{font-size:var(--text-lg);color:var(--color-text-muted);max-width:60ch}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.9rem 1.15rem;border-radius:999px;font-weight:700}
+    .btn-primary{background:var(--color-primary);color:white}.btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{border:1px solid var(--color-border);background:var(--color-surface)}
+    .hero-card,.card,.panel{background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 10%, transparent);border-radius:var(--radius-xl);box-shadow:var(--shadow-md)}
+    .hero-card{padding:1.25rem}
+    .stats{display:grid;gap:.85rem;margin-top:1rem}
+    .stat{padding:1rem;border-radius:var(--radius-lg);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%, transparent)}
+    .stat strong{display:block;font-family:var(--font-display);font-size:1.6rem}
+    .section{padding:clamp(2.5rem,5vw,4.5rem) 0}
+    .section-head{display:flex;justify-content:space-between;gap:1rem;align-items:end;margin-bottom:1.5rem}
+    .section-head p{max-width:60ch;color:var(--color-text-muted)}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .card{padding:1.25rem}
+    .card h3{font-size:1.2rem;margin:.25rem 0 .6rem}
+    .muted{color:var(--color-text-muted)}
+    .badge{display:inline-flex;padding:.35rem .7rem;border-radius:999px;background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:700;margin-bottom:.75rem}
+    ul.clean{list-style:none;display:grid;gap:.7rem}
+    ul.clean li{padding-left:1.1rem;position:relative}
+    ul.clean li::before{content:"";position:absolute;left:0;top:.65rem;width:.45rem;height:.45rem;border-radius:999px;background:var(--color-primary)}
+    .table-wrap{overflow:auto;border-radius:var(--radius-xl);border:1px solid var(--color-border);background:var(--color-surface)}
+    table{width:100%;border-collapse:collapse;min-width:760px}
+    th,td{padding:1rem;vertical-align:top;text-align:left;border-bottom:1px solid var(--color-border)}
+    th{font-size:var(--text-sm);color:var(--color-text-muted);background:var(--color-surface-2)}
+    .quote{padding:1.25rem;border-left:4px solid var(--color-primary);background:var(--color-surface-offset);border-radius:0 var(--radius-lg) var(--radius-lg) 0}
+    .steps{display:grid;gap:1rem}
+    .step{display:grid;grid-template-columns:auto 1fr;gap:1rem;padding:1rem;border-radius:var(--radius-lg);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 10%, transparent)}
+    .step-num{width:2rem;height:2rem;border-radius:999px;background:var(--color-primary);color:#fff;display:grid;place-items:center;font-weight:700}
+    .footer{padding:2rem 0 3rem;color:var(--color-text-muted);font-size:var(--text-sm)}
+    @media (max-width: 920px){.hero-grid,.grid-3,.grid-2{grid-template-columns:1fr}.nav{display:none}.section-head{display:block}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 17 9 7l3 6 3-4 5 8" />
+            <path d="M4 17h16" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <strong>MoDRA Sales Kit</strong>
+          <span>Základní obchodní podklad pro account týmy</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Hlavní navigace">
+        <a href="#co-je-modra">Produkt</a>
+        <a href="#pro-koho">ICP</a>
+        <a href="#argumenty">Argumenty</a>
+        <a href="#namitky">Námitky</a>
+        <a href="#licence">Licence</a>
+        <a href="#materialy">Materiály</a>
+      </nav>
+      <button class="theme-toggle" data-theme-toggle aria-label="Přepnout režim">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="obsah">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Sales enablement</span>
+          <h1>MoDRA pomáhá prodávat kyberbezpečnost jako byznysové rozhodnutí</h1>
+          <p class="lead">MoDRA je modelově řízené řešení pro analýzu kybernetických a informačních rizik, které propojuje architekturu, hrozby, zranitelnosti a dopady do srozumitelného výstupu pro techniky i vedení firmy.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#argumenty">Zobrazit prodejní argumenty</a>
+            <a class="btn btn-secondary" href="#call-script">Jak vést první schůzku</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Rychlá orientace">
+          <div class="badge">Rychlá orientace pro obchodníka</div>
+          <div class="stats">
+            <div class="stat"><strong>NIS2 / nZoKB</strong><span class="muted">Silný trigger tam, kde klient řeší compliance a auditovatelnost.</span></div>
+            <div class="stat"><strong>IT + board</strong><span class="muted">MoDRA překládá technická rizika do dopadů na služby a byznys.</span></div>
+            <div class="stat"><strong>Cloud i hybrid</strong><span class="muted">MoDRA má varianty Cloud, Managed Cloud, Hybrid a Managed Hybrid.</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="co-je-modra">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Co prodáváme</span>
+            <h2>Jednovětý popis produktu</h2>
+          </div>
+          <p>MoDRA není jen databáze rizik ani další excelová šablona. Je to modelově řízený rámec a nástroj pro opakovatelnou, přezkoumatelnou a manažersky srozumitelnou analýzu rizik.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <h3>Co řeší</h3>
+            <p class="muted">Systematickou analýzu kybernetických a informačních rizik v kontextu podnikové architektury, služeb, aktiv, hrozeb a zranitelností.</p>
+          </article>
+          <article class="card">
+            <h3>Čím je jiné</h3>
+            <p class="muted">Používá ArchiMate s rozšířením RSO a vizualizuje vztahy mezi technickou realitou a byznysovým dopadem místo izolovaných tabulek.</p>
+          </article>
+          <article class="card">
+            <h3>Jakou má hodnotu</h3>
+            <p class="muted">Urychluje analýzu, zlepšuje auditovatelnost, pomáhá s reportingem a dává vedení srozumitelný podklad pro rozhodování.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pro-koho">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Ideální zákazník</span>
+            <h2>Kde má MoDRA největší šanci</h2>
+          </div>
+          <p>Nejlépe funguje tam, kde klient už chápe, že kybernetická bezpečnost není čistě IT téma, ale byznysové a regulatorní riziko.</p>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Typické segmenty</h3>
+            <ul class="clean">
+              <li>Subjekty spadající pod ZoKB, nZoKB nebo NIS2.</li>
+              <li>Nemocnice, utility, veřejná správa, banky a další regulované služby.</li>
+              <li>Střední a větší firmy s komplexním IT a vysokým počtem aktiv.</li>
+              <li>Organizace, které se „topí v tabulkách“ a chtějí auditovatelnější přístup.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Koho oslovit</h3>
+            <ul class="clean">
+              <li>CEO / jednatel / představenstvo, když řeší kontinuitu, odpovědnost a reputaci.</li>
+              <li>CFO, když je potřeba převést rizika na dopad do peněz a priorit investic.</li>
+              <li>CISO / Head of IT Security, když hledají nástroj pro řízení rizik a compliance.</li>
+              <li>Risk manager, když chce konzistentní a opakovatelnou metodiku.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="argumenty">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Prodejní argumenty</span>
+            <h2>Hlavní value propositions</h2>
+          </div>
+          <p>Těchto pět argumentů by mělo zaznít téměř na každé první schůzce.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card"><h3>1. Srozumitelnost pro management</h3><p class="muted">MoDRA převádí technické hrozby do vizuálního a manažersky čitelného pohledu na dopady pro služby a chod organizace.</p></article>
+          <article class="card"><h3>2. Konec „excelového pekla“</h3><p class="muted">Modelový přístup omezuje ruční údržbu vazeb a zvyšuje konzistenci při změnách v IT prostředí.</p></article>
+          <article class="card"><h3>3. Auditovatelnost a compliance</h3><p class="muted">Opakovatelný a přezkoumatelný proces pomáhá plnit zákonné a regulatorní požadavky.</p></article>
+          <article class="card"><h3>4. Rychlejší reakce na změny</h3><p class="muted">Změna v modelu se okamžitě promítá do výstupů analýzy, což zkracuje revizní cykly.</p></article>
+          <article class="card"><h3>5. Praktická doporučení</h3><p class="muted">Součástí výstupů mohou být návrhy opatření, podpora RTP a přehled priorit pro další postup.</p></article>
+          <article class="card"><h3>6. Flexibilita nasazení</h3><p class="muted">Lze nabídnout cloudové i hybridní varianty podle bezpečnostních a provozních požadavků klienta.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pain-points">
+      <div class="container grid-2">
+        <article class="panel card">
+          <span class="badge">Pain points</span>
+          <h2>Na co se klienta ptát</h2>
+          <ul class="clean" style="margin-top:1rem">
+            <li>Jak dnes děláte analýzu rizik a kolik je v tom ruční práce?</li>
+            <li>Jak snadno umíte vysvětlit rizika boardu nebo vedení?</li>
+            <li>Jak řešíte auditovatelnost a dohledatelnost rozhodnutí?</li>
+            <li>Co se stane, když se změní architektura, aktiva nebo hrozby?</li>
+            <li>Máte pod NIS2 nebo nZoKB tlak na pravidelné a přezkoumatelné analýzy?</li>
+          </ul>
+        </article>
+        <article class="panel card">
+          <span class="badge">Signály nákupu</span>
+          <h2>Kdy je deal „teplý“</h2>
+          <ul class="clean" style="margin-top:1rem">
+            <li>Klient přiznává, že tabulky přestávají stačit.</li>
+            <li>Management nechce schvalovat rozpočty, protože nerozumí dopadům rizik.</li>
+            <li>Probíhá příprava na audit, inspekci nebo regulatorní změny.</li>
+            <li>Řeší se větší transformace, konsolidace nebo změna architektury.</li>
+            <li>Po incidentu je vyšší ochota investovat do systematičtějšího řízení rizik.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="namitky">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Překonání námitek</span>
+            <h2>Nejčastější objection handling</h2>
+          </div>
+          <p>Kratší formulace pro obchodníka. Cílem není technická debata, ale posun k další schůzce nebo demo ukázce.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Námitka</th><th>Doporučená odpověď</th><th>Kam debatou mířit</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>„Modelování je moc pracné.“</td>
+                <td>První zápis může být delší, ale úspora přichází v životním cyklu, při změnách, revizích a opakované analýze.</td>
+                <td>Otevřít téma TCO, rychlosti změn a dlouhodobé údržby.</td>
+              </tr>
+              <tr>
+                <td>„Máme vlastní metodiku.“</td>
+                <td>MoDRA není proti metodice klienta, ale pomáhá zajistit konzistenci, přezkoumatelnost a manažersky čitelné výstupy.</td>
+                <td>Směřovat ke kompatibilitě a kvalitě výstupů pro audit i vedení.</td>
+              </tr>
+              <tr>
+                <td>„Je to drahé.“</td>
+                <td>Cena řešení je obvykle nízká vůči nákladům na incident, neefektivní ruční práci nebo regulatorní sankce.</td>
+                <td>Převést debatu z ceny na náklady nečinnosti a prioritizaci investic.</td>
+              </tr>
+              <tr>
+                <td>„Stačí nám Excel.“</td>
+                <td>Excel funguje u malého rozsahu, ale při větším počtu aktiv, vazeb a změn roste chybovost i neudržitelnost.</td>
+                <td>Ptát se na objem dat, revize, audit a komunikaci s managementem.</td>
+              </tr>
+              <tr>
+                <td>„Nemáme lidi na správu modelu.“</td>
+                <td>MoDRA lze nabídnout i ve managed variantách a navázat na odborné služby Simac.</td>
+                <td>Přesměrovat na službový model a variantu provozu.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="licence">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Licenční modely</span>
+            <h2>Jak MoDRA nabídnout</h2>
+          </div>
+          <p>Variantu nasazení vybírejte hlavně podle požadavků na správu, umístění dat a míru zapojení zákazníka.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Varianta</th><th>Popis</th><th>Pro koho se hodí</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>MoDRA Cloud Solution</td><td>Plně provozováno v Azure cloud prostředí Simac a dodáváno jako služba.</td><td>Klient chce rychlé nasazení a minimální provozní starosti.</td></tr>
+              <tr><td>MoDRA Managed Cloud Solution</td><td>Řešení běží v Azure tenantu zákazníka, ale instalaci a správu zajišťuje Simac.</td><td>Klient chce data a prostředí ve svém cloudu, ale bez vlastního provozního týmu.</td></tr>
+              <tr><td>MoDRA Hybrid Solution</td><td>Část běží v Azure prostředí Simac, repository je on-premise u zákazníka.</td><td>Klient má vyšší požadavky na umístění citlivých modelů a metadat.</td></tr>
+              <tr><td>MoDRA Managed Hybrid Solution</td><td>Stejný princip jako hybrid, ale Simac spravuje i on-premise část řešení.</td><td>Klient chce hybridní model bez provozní zátěže na své straně.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="call-script">
+      <div class="container grid-2">
+        <article class="card">
+          <span class="badge">První schůzka</span>
+          <h2>Doporučený call flow</h2>
+          <div class="steps" style="margin-top:1rem">
+            <div class="step"><div class="step-num">1</div><div><strong>Otevřete tlakem na změnu.</strong><div class="muted">Compliance, audit, incident, růst komplexity nebo neudržitelnost tabulek.</div></div></div>
+            <div class="step"><div class="step-num">2</div><div><strong>Ptejte se na současný stav.</strong><div class="muted">Jak dnes vzniká analýza rizik, kdo jí rozumí a jak se aktualizuje.</div></div></div>
+            <div class="step"><div class="step-num">3</div><div><strong>Ukažte rozdíl.</strong><div class="muted">Excel eviduje, MoDRA modeluje vztahy a dopady v kontextu architektury.</div></div></div>
+            <div class="step"><div class="step-num">4</div><div><strong>Přepněte na byznysový dopad.</strong><div class="muted">Rozhodování vedení, prioritizace opatření, auditovatelnost, kontinuita služeb.</div></div></div>
+            <div class="step"><div class="step-num">5</div><div><strong>Zavřete další krok.</strong><div class="muted">Domluvit workshop, demo nebo mapování vhodného licenčního modelu.</div></div></div>
+          </div>
+        </article>
+        <article class="card">
+          <span class="badge">Elevator pitch</span>
+          <h2>Krátké obchodní sdělení</h2>
+          <div class="quote" style="margin-top:1rem">
+            „MoDRA pomáhá organizacím dělat analýzu kybernetických rizik tak, aby byla přezkoumatelná, opakovatelná a srozumitelná i pro vedení. Místo izolovaných tabulek propojuje architekturu, aktiva, hrozby a dopady do jednoho modelu, takže klient lépe plní regulatorní požadavky a rychleji se rozhoduje, kam investovat do bezpečnosti.“
+          </div>
+          <h3 style="margin:1.25rem 0 .5rem">Kdy neprodávat na sílu</h3>
+          <ul class="clean">
+            <li>Mikrofirmy, které chtějí jen nejlevnější formální výstup.</li>
+            <li>Organizace bez kapacity a bez ochoty přijmout managed službu.</li>
+            <li>Klienti, kteří nevidí bezpečnost jako reálné podnikové riziko.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  
+    <section class="section" id="materialy">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Související materiály</span>
+            <h2>Ke stažení a dalšímu použití</h2>
+          </div>
+          <p>Tato stránka je rozšířena o navazující obchodní podklady pro obchodníky i zákaznická jednání.</p>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Materiály</h3>
+            <ul class="clean">
+              <li><a href="./modra-handout.docx" target="_blank" rel="noopener noreferrer">1stránkový handout pro zákazníka</a></li>
+              <li><a href="./modra-obchodni-prezentace.docx" target="_blank" rel="noopener noreferrer">Osnova obchodní prezentace</a></li>
+              <li><a href="./modra-discovery-checklist.docx" target="_blank" rel="noopener noreferrer">Discovery checklist pro první schůzku</a></li>
+              <li><a href="./modra-segmenty.docx" target="_blank" rel="noopener noreferrer">Segmentová verze pro nemocnice, utility a veřejnou správu</a></li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Doporučené použití</h3>
+            <ul class="clean">
+              <li>Handout pošlete po úvodní schůzce jako stručné shrnutí.</li>
+              <li>Prezentaci použijte jako osnovu pro obchodní deck nebo workshop.</li>
+              <li>Checklist používejte při discovery callu a kvalifikaci dealu.</li>
+              <li>Segmentový dokument využijte při přípravě na oborově zaměřené jednání.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      Tento sales kit je připraven jako základní interní podklad pro obchodníky. Doporučený další krok: doplnit cenové scénáře, vzorový discovery checklist a demo story podle cílového segmentu.
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const btn=document.querySelector('[data-theme-toggle]');
+      const root=document.documentElement;
+      let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+      root.setAttribute('data-theme',theme);
+      function render(){
+        btn.setAttribute('aria-label', theme==='dark' ? 'Přepnout na světlý režim' : 'Přepnout na tmavý režim');
+        btn.innerHTML = theme==='dark'
+          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>'
+          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+      }
+      render();
+      btn.addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme);render();});
+    })();
+  </script>
+</body>
+</html>
